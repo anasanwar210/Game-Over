@@ -1,10 +1,45 @@
-// ? =============> Global ===============>
 const loading = document.querySelector(".loading");
+const mode = document.getElementById("mode");
 
-// ! =============> When Start ===============>
+if (localStorage.getItem("theme") !== null) {
+  const savedTheme = localStorage.getItem("theme");
+
+  document.querySelector("html").setAttribute("data-theme", savedTheme);
+
+  if (savedTheme === "light") {
+    mode.classList.replace("fa-sun", "fa-moon");
+  } else {
+    mode.classList.replace("fa-moon", "fa-sun");
+  }
+} else {
+  document.querySelector("html").setAttribute("data-theme", "dark");
+}
+
+mode.addEventListener("click", function () {
+  if (document.querySelector("html").getAttribute("data-theme") === "light") {
+    mode.classList.replace("fa-moon", "fa-sun");
+    document.querySelector("html").setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  } else {
+    document.querySelector("html").setAttribute("data-theme", "light");
+    mode.classList.replace("fa-sun", "fa-moon");
+    localStorage.setItem("theme", "light");
+  }
+});
+
+/*
+=====================
+- Start
+=====================
+*/
 getGames("mmorpg");
 
-// * =============> Events ===============>
+/*
+=====================
+- Events
+=====================
+*/
+
 document.querySelectorAll(".menu .nav-link").forEach(function (link) {
   link.addEventListener("click", function () {
     document.querySelector(".active").classList.remove("active");
@@ -14,7 +49,11 @@ document.querySelectorAll(".menu .nav-link").forEach(function (link) {
   });
 });
 
-// ! =============> Functions ===============>
+/*
+=====================
+- Functions
+=====================
+*/
 
 async function getGames(category) {
   try {
@@ -48,7 +87,7 @@ function displayData(data) {
     );
     gamesCards += `
        <div class="col">
-      <div onmouseenter="startVideo(event)" onmouseleave="stopVideo(event)" class="card h-100 bg-transparent"
+      <div onmouseenter="startVideo(event)" onmouseleave="stopVideo(event)" onclick="showDetails(${data[i].id})" class="card h-100 bg-transparent"
          role="button">
          <div class="card-body">
             <figure class="position-relative">
@@ -63,7 +102,7 @@ function displayData(data) {
                   <span class="badge text-bg-primary p-2">Free</span>
                </div>
               <div>
-                <p class="card-text small text-center opacity-50">
+                <p class="card-text small text-center opacity-50 h-100">
                     ${data[i].short_description}
                 </p>
               </div>
@@ -83,12 +122,6 @@ function displayData(data) {
 function startVideo(event) {
   let videoEl = event.target.querySelector("video");
   videoEl.classList.remove("d-none");
-  videoEl.play();
-}
-
-function startVideo(event) {
-  let videoEl = event.target.querySelector("video");
-  videoEl.classList.remove("d-none");
   videoEl.muted = "true";
   videoEl.play();
 }
@@ -97,4 +130,9 @@ function stopVideo(event) {
   let videoEl = event.target.querySelector("video");
   videoEl.classList.add("d-none");
   videoEl.pause();
+}
+
+function showDetails(id) {
+  location.href = `../details.html?id=${id}`;
+  console.log(id);
 }

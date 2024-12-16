@@ -131,6 +131,7 @@ function stopVideo(event) {
   videoEl.pause();
 }
 
+
 function showDetails(id) {
   const baseUrl = "/Game-Over";
   location.href = `${baseUrl}/details.html?id=${id}`;

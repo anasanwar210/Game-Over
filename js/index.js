@@ -70,7 +70,6 @@ async function getGames(category) {
       options
     );
     const gamesData = await apiResponse.json();
-    console.log(gamesData);
     displayData(gamesData);
     loading.classList.add("d-none");
   } catch (error) {
@@ -133,6 +132,5 @@ function stopVideo(event) {
 }
 
 function showDetails(id) {
-  location.href = `../details.html?id=${id}`;
-  console.log(id);
+  location.href = `../details?id=${id}`;
 }
